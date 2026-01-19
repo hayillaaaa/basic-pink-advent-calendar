@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pink Advent Calendar</title>
+<title>Pink 8-Bit Advent</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
@@ -22,21 +22,13 @@ body {
     #da2e76 12px,
     #da2e76 24px
   );
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-family: 'VT323', monospace;
-  overflow: hidden;
-  color: #bfdbfe;
+  color: #fcd5e0;
+  overflow-x: hidden;
 }
 
-/* ❄️ SNOW */
-.snow {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
+/* ❄️ Snow */
+.snow { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 .snowflake {
   position: absolute;
   width: 6px;
@@ -44,11 +36,9 @@ body {
   background: white;
   animation: fall linear infinite;
 }
-@keyframes fall {
-  to { transform: translateY(110vh); }
-}
+@keyframes fall { to { transform: translateY(110vh); } }
 
-/* SCREENS */
+/* Screens */
 .screen {
   position: fixed;
   inset: 0;
@@ -61,6 +51,7 @@ body {
   text-align: center;
 }
 
+/* PRESS START */
 .start-text {
   font-family: 'Press Start 2P', cursive;
   font-size: 1.4rem;
@@ -69,43 +60,37 @@ body {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* PASSWORD */
+/* Password */
 .password-box {
-  background: #ffe4ef;
+  background: #fcd5e0;
   color: #be185d;
   padding: 24px;
   border: 6px solid #be185d;
   box-shadow: 10px 10px #be185d;
   width: 90%;
-  max-width: 340px;
+  max-width: 320px;
 }
 .password-box input {
   width: 100%;
   padding: 12px;
+  font-size: 1.4rem;
   margin-top: 12px;
-  font-size: 1.3rem;
-  font-family: 'VT323', monospace;
 }
 .password-box button {
   margin-top: 12px;
-  width: 100%;
   padding: 10px;
   font-family: 'Press Start 2P', cursive;
-  background: #ec4899;
   border: 4px solid #be185d;
-  cursor: pointer;
+  background: #ec4899;
 }
-.password-box p {
-  color: red;
-  display: none;
-}
+.password-box p { display: none; color: red; }
 
-/* MAIN */
+/* Main */
 .wrapper {
-  width: 100%;
-  max-width: 960px;
-  padding: 20px;
   display: none;
+  max-width: 960px;
+  margin: auto;
+  padding: 20px;
   z-index: 2;
 }
 
@@ -113,11 +98,11 @@ h1 {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
   font-size: 1.1rem;
+  text-shadow: 4px 4px #be185d;
   margin-bottom: 20px;
-  text-shadow: 3px 3px #be185d;
 }
 
-/* CALENDAR */
+/* Calendar */
 .calendar {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -127,8 +112,8 @@ h1 {
 .day {
   position: relative;
   padding-top: 100%;
-  cursor: pointer;
 }
+
 .day-inner {
   position: absolute;
   inset: 0;
@@ -139,10 +124,10 @@ h1 {
   align-items: center;
   justify-content: center;
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.8rem;
+  cursor: pointer;
 }
 
-/* POPUP */
+/* Popup */
 .overlay {
   position: fixed;
   inset: 0;
@@ -161,7 +146,7 @@ h1 {
 }
 
 .popup-card {
-  background: #ffe4ef;
+  background: #fcd5e0;
   color: #be185d;
   width: 92%;
   max-width: 480px;
@@ -169,25 +154,23 @@ h1 {
   border: 6px solid #be185d;
   box-shadow: 10px 10px #be185d;
   transform: scale(0.6);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s steps(6);
   font-size: 1.4rem;
 }
-.overlay.active .popup-card {
-  transform: scale(1);
-}
+.overlay.active .popup-card { transform: scale(1); }
 
 .close-btn {
-  font-family: 'Press Start 2P', cursive;
-  background: #ec4899;
-  border: 4px solid #be185d;
-  padding: 8px;
   margin-bottom: 10px;
-  cursor: pointer;
+  padding: 8px;
+  font-family: 'Press Start 2P', cursive;
+  border: 4px solid #be185d;
+  background: #ec4899;
 }
 
 /* 📱 MOBILE */
 @media (max-width: 768px) {
   .calendar { grid-template-columns: repeat(3, 1fr); }
+  .day-inner { font-size: 0.75rem; }
   h1 { font-size: 1rem; }
 }
 
@@ -218,53 +201,24 @@ h1 {
 
 <!-- MAIN -->
 <div class="wrapper" id="mainContent">
-  <h1>🎄 HANNA'S ADVENT CALENDAR 🩷</h1>
+  <h1>🎄 PINK 8-BIT ADVENT 🎮</h1>
   <div class="calendar" id="calendar"></div>
 </div>
 
-<!-- POPUP -->
 <div class="overlay" id="overlay">
   <div class="popup-card">
-    <button class="close-btn" id="closeBtn">CLOSE</button>
+    <button class="close-btn">CLOSE</button>
     <div id="popupContent"></div>
   </div>
 </div>
 
 <script>
-/* 🔑 PASSWORD */
+/* PASSWORD */
 const CORRECT_PASSWORD = "123";
 
-/* 🎁 CUSTOM LETTERS — EDIT THESE */
-const letters = [
-  "Day 1: Your first little Christmas surprise 💖",
-  "Day 2: I hope today makes you smile ✨",
-  "Day 3: You are so loved 🎄",
-  "Day 4: A reminder that you are amazing 💫",
-  "Day 5: Cozy hugs and warm thoughts 🤍",
-  "Day 6: Thank you for existing 💕",
-  "Day 7: You make my days brighter ☀️",
-  "Day 8: Pixel kisses just for you 😘",
-  "Day 9: Christmas is better with you 🎁",
-  "Day 10: Keep being your wonderful self 💖",
-  "Day 11: A tiny note full of love 💌",
-  "Day 12: Halfway to Christmas magic ✨",
-  "Day 13: You’re my favorite surprise 🎀",
-  "Day 14: Sending warmth your way 🤍",
-  "Day 15: You mean so much to me 💕",
-  "Day 16: Almost there 🎄",
-  "Day 17: Thank you for every smile 😊",
-  "Day 18: Christmas joy unlocked 🎮",
-  "Day 19: You are cherished 💖",
-  "Day 20: Wrapped in love 🎁",
-  "Day 21: Winter magic feels better with you ❄️",
-  "Day 22: Just a little more ✨",
-  "Day 23: One more sleep 🎄",
-  "Day 24: Merry Christmas, my favorite person ❤️"
-];
-
-/* START */
 const startScreen = document.getElementById("startScreen");
 const passwordScreen = document.getElementById("passwordScreen");
+
 startScreen.onclick = () => {
   startScreen.style.display = "none";
   passwordScreen.style.display = "flex";
@@ -281,11 +235,49 @@ function checkPassword() {
   }
 }
 
-/* CALENDAR */
+/* ❄️ Snow */
+const snow = document.getElementById("snow");
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement("div");
+  s.className = "snowflake";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.animationDuration = 6 + Math.random() * 8 + "s";
+  s.style.animationDelay = Math.random() * -20 + "s";
+  snow.appendChild(s);
+}
+
+/* ✉️ LETTERS YOU CAN EDIT */
+const letters = [
+  "Day 1: Your first Christmas message 💖",
+  "Day 2: A cozy little reminder 🎄",
+  "Day 3: Something sweet just for you ✨",
+  "Day 4: Pixel hugs and warm thoughts 💕",
+  "Day 5: You make December brighter ❄️",
+  "Day 6: A small note full of love 💌",
+  "Day 7: You’re doing amazing 🌟",
+  "Day 8: Sending you comfort today ☕",
+  "Day 9: Another reason to smile 😊",
+  "Day 10: Christmas magic is close 🎅",
+  "Day 11: A quiet moment just for you 💭",
+  "Day 12: Halfway there 🎄",
+  "Day 13: Thank you for existing 💗",
+  "Day 14: Warm wishes always 🔔",
+  "Day 15: You are appreciated 💞",
+  "Day 16: Hope today feels gentle 🌙",
+  "Day 17: Almost Christmas 🎁",
+  "Day 18: A little joy for today ✨",
+  "Day 19: You matter so much 💖",
+  "Day 20: Cozy thoughts coming your way ❄️",
+  "Day 21: Christmas is near 🎄",
+  "Day 22: Just a reminder you’re loved 💕",
+  "Day 23: Tomorrow is special 🌟",
+  "Day 24: Merry Christmas 💝"
+];
+
+/* Calendar logic */
 const calendar = document.getElementById("calendar");
 const overlay = document.getElementById("overlay");
 const popupContent = document.getElementById("popupContent");
-const closeBtn = document.getElementById("closeBtn");
 
 letters.forEach((text, i) => {
   const day = document.createElement("div");
@@ -298,21 +290,12 @@ letters.forEach((text, i) => {
   calendar.appendChild(day);
 });
 
-closeBtn.onclick = () => overlay.classList.remove("active");
+document.querySelector(".close-btn").onclick =
 overlay.onclick = e => {
-  if (e.target === overlay) overlay.classList.remove("active");
+  if (e.target === overlay || e.target.classList.contains("close-btn")) {
+    overlay.classList.remove("active");
+  }
 };
-
-/* SNOW */
-const snow = document.getElementById("snow");
-for (let i = 0; i < 80; i++) {
-  const flake = document.createElement("div");
-  flake.className = "snowflake";
-  flake.style.left = Math.random() * 100 + "vw";
-  flake.style.animationDuration = Math.random() * 10 + 6 + "s";
-  flake.style.animationDelay = Math.random() * -20 + "s";
-  snow.appendChild(flake);
-}
 </script>
 
 </body>
